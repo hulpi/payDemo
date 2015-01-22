@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.TransactionMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.Transaction" >
+    <id column="UP_TRANSACTION_OID" property="upTransactionOid" jdbcType="DECIMAL" />
+    <result column="UP_SYS_REGISTER_OID" property="upSysRegisterOid" jdbcType="DECIMAL" />
+    <result column="UF_APP_LEDG_SEQ_ID" property="ufAppLedgSeqId" jdbcType="VARCHAR" />
+    <result column="UF_SEND_BATCH_ID" property="ufSendBatchId" jdbcType="VARCHAR" />
+    <result column="UF_APP_CODE" property="ufAppCode" jdbcType="VARCHAR" />
+    <result column="UF_CITY_CODE" property="ufCityCode" jdbcType="VARCHAR" />
+    <result column="UP_AGENT_PAY_OID" property="upAgentPayOid" jdbcType="DECIMAL" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+    <result column="UP_MERCHANT_OID" property="upMerchantOid" jdbcType="DECIMAL" />
+    <result column="REFERENCE_NO" property="referenceNo" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NO" property="accountNo" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NAME" property="accountName" jdbcType="VARCHAR" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_CERT_TYPE" property="accountCertType" jdbcType="VARCHAR" />
+    <result column="BANK_PROVINCE" property="bankProvince" jdbcType="VARCHAR" />
+    <result column="BANK_CITY" property="bankCity" jdbcType="VARCHAR" />
+    <result column="SETTLE_TYPE" property="settleType" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="EXPECT_SETTLE_DATE" property="expectSettleDate" jdbcType="TIMESTAMP" />
+    <result column="ACTUAL_SETTLE_DATE" property="actualSettleDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="VERSION_NO" property="versionNo" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_TRANSACTION_OID, UP_SYS_REGISTER_OID, UF_APP_LEDG_SEQ_ID, UF_SEND_BATCH_ID, UF_APP_CODE, 
+    UF_CITY_CODE, UP_AGENT_PAY_OID, PAY_TYPE, UP_MERCHANT_OID, REFERENCE_NO, ACCOUNT_NO, 
+    ACCOUNT_NAME, BANK_CODE, BANK_NAME, ACCOUNT_CERT_TYPE, BANK_PROVINCE, BANK_CITY, SETTLE_TYPE, AMOUNT, 
+    CURRENCY, EXPECT_SETTLE_DATE, ACTUAL_SETTLE_DATE, STATUS, VERSION_NO, REMARK, CREATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_TRANSACTION
+    where UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="queryTransactions" resultMap="BaseResultMap"  parameterType="com.uaf.pay.dto.UiTransactionDTO">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from UP_TRANSACTION
+  	WHERE STATUS=#{status}
+  </select>
+  
+  
+  <select id="queryTransactionsByAppLedgSeqId" resultType="com.uaf.pay.dto.TransactionDto" parameterType="java.util.List">
+  	select
+  	t.UF_APP_LEDG_SEQ_ID ufAppLedgSeqId, 
+  	t.UF_SEND_BATCH_ID ufSendBatchId, 
+  	t.UF_APP_CODE ufAppCode, 
+    t.UF_CITY_CODE ufCityCode, 
+    t.PAY_TYPE payType, 
+    t.REFERENCE_NO referenceNo, 
+    t.ACCOUNT_NO accountNo, 
+    t.ACCOUNT_NAME accountName, 
+    t.BANK_CODE bankCode, 
+    t.BANK_NAME bankName, 
+    t.ACCOUNT_CERT_TYPE accountCertType, 
+    t.BANK_PROVINCE bankProvince, 
+    t.BANK_CITY bankCity, 
+    t.SETTLE_TYPE settleType, 
+    t.AMOUNT amount, 
+    t.CURRENCY currency, 
+    t.EXPECT_SETTLE_DATE expectSettleDate, 
+    t.ACTUAL_SETTLE_DATE actualSettleDate, 
+    t.STATUS status, 
+    t.REMARK remark, 
+    t.CREATE_DATE,
+    '' accountCertID,
+    p.AGENT_PAY_CODE upAgentPayCode,
+    q.RETURN_CODE returnCode,
+    q.create_date returnDateTime, 
+    q.ERROR_MSG returnErrMsg
+    
+  	from UP_TRANSACTION t, UP_AGENT_PAY p, UP_BATCH_QUERY_DETAIL q 	,
+  	(select max(bqd.up_batch_query_detail_oid) up_batch_query_detail_oid, 
+               ut.up_transaction_oid                    
+          from UP_TRANSACTION ut, UP_BATCH_QUERY_DETAIL bqd
+         where ut.up_transaction_oid = bqd.up_transaction_oid 
+         group by bqd.up_transaction_oid ) r
+         
+  	where  t.up_transaction_oid=r.up_transaction_oid(+)
+  	and t.up_agent_pay_oid = p.up_agent_pay_oid(+)
+  	and r.up_batch_query_detail_oid = q.up_batch_query_detail_oid(+)
+  	and t.UF_APP_LEDG_SEQ_ID in
+  	<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </select>
+  
+  <update id="updateTransactionStatus" parameterType="java.util.List">
+  	update UP_TRANSACTION set status='02' where UP_TRANSACTION_OID in 
+  	<foreach item="item" index="index" collection="list" open="("	separator="," close=")">
+			#{item}
+	</foreach>
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_TRANSACTION
+    where UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.uaf.pay.model.Transaction" >
+  <selectKey resultType="java.lang.Long"  keyProperty="upTransactionOid" order="BEFORE">
+  	select UP_TRANSACTION_SEQ.nextval from dual
+  </selectKey>
+    insert into UP_TRANSACTION (UP_TRANSACTION_OID, UP_SYS_REGISTER_OID, 
+      UF_APP_LEDG_SEQ_ID, UF_SEND_BATCH_ID, UF_APP_CODE, 
+      UF_CITY_CODE, UP_AGENT_PAY_OID, PAY_TYPE, 
+      UP_MERCHANT_OID, REFERENCE_NO, ACCOUNT_NO, 
+      ACCOUNT_NAME, BANK_CODE, BANK_NAME, ACCOUNT_CERT_TYPE, 
+      BANK_PROVINCE, BANK_CITY, SETTLE_TYPE, 
+      AMOUNT, CURRENCY, EXPECT_SETTLE_DATE, 
+      ACTUAL_SETTLE_DATE, STATUS, VERSION_NO, 
+      REMARK, CREATE_DATE)
+    values (#{upTransactionOid,jdbcType=DECIMAL}, #{upSysRegisterOid,jdbcType=DECIMAL}, 
+      #{ufAppLedgSeqId,jdbcType=VARCHAR}, #{ufSendBatchId,jdbcType=VARCHAR}, #{ufAppCode,jdbcType=VARCHAR}, 
+      #{ufCityCode,jdbcType=VARCHAR}, #{upAgentPayOid,jdbcType=DECIMAL}, #{payType,jdbcType=VARCHAR}, 
+      #{upMerchantOid,jdbcType=DECIMAL}, #{referenceNo,jdbcType=VARCHAR}, #{accountNo,jdbcType=VARCHAR}, 
+      #{accountName,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR},#{accountCertType,jdbcType=VARCHAR}, 
+      #{bankProvince,jdbcType=VARCHAR}, #{bankCity,jdbcType=VARCHAR}, #{settleType,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{currency,jdbcType=VARCHAR}, #{expectSettleDate,jdbcType=TIMESTAMP}, 
+      #{actualSettleDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{versionNo,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.Transaction" >
+    insert into UP_TRANSACTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upTransactionOid != null" >
+        UP_TRANSACTION_OID,
+      </if>
+      <if test="upSysRegisterOid != null" >
+        UP_SYS_REGISTER_OID,
+      </if>
+      <if test="ufAppLedgSeqId != null" >
+        UF_APP_LEDG_SEQ_ID,
+      </if>
+      <if test="ufSendBatchId != null" >
+        UF_SEND_BATCH_ID,
+      </if>
+      <if test="ufAppCode != null" >
+        UF_APP_CODE,
+      </if>
+      <if test="ufCityCode != null" >
+        UF_CITY_CODE,
+      </if>
+      <if test="upAgentPayOid != null" >
+        UP_AGENT_PAY_OID,
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE,
+      </if>
+      <if test="upMerchantOid != null" >
+        UP_MERCHANT_OID,
+      </if>
+      <if test="referenceNo != null" >
+        REFERENCE_NO,
+      </if>
+      <if test="accountNo != null" >
+        ACCOUNT_NO,
+      </if>
+      <if test="accountName != null" >
+        ACCOUNT_NAME,
+      </if>
+      <if test="bankCode != null" >
+        BANK_CODE,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="accountCertType != null" >
+        ACCOUNT_CERT_TYPE,
+      </if>
+      <if test="bankProvince != null" >
+        BANK_PROVINCE,
+      </if>
+      <if test="bankCity != null" >
+        BANK_CITY,
+      </if>
+      <if test="settleType != null" >
+        SETTLE_TYPE,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="expectSettleDate != null" >
+        EXPECT_SETTLE_DATE,
+      </if>
+      <if test="actualSettleDate != null" >
+        ACTUAL_SETTLE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="versionNo != null" >
+        VERSION_NO,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upTransactionOid != null" >
+        #{upTransactionOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upSysRegisterOid != null" >
+        #{upSysRegisterOid,jdbcType=DECIMAL},
+      </if>
+      <if test="ufAppLedgSeqId != null" >
+        #{ufAppLedgSeqId,jdbcType=VARCHAR},
+      </if>
+      <if test="ufSendBatchId != null" >
+        #{ufSendBatchId,jdbcType=VARCHAR},
+      </if>
+      <if test="ufAppCode != null" >
+        #{ufAppCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ufCityCode != null" >
+        #{ufCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="upAgentPayOid != null" >
+        #{upAgentPayOid,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="upMerchantOid != null" >
+        #{upMerchantOid,jdbcType=DECIMAL},
+      </if>
+      <if test="referenceNo != null" >
+        #{referenceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null" >
+        #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProvince != null" >
+        #{bankProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCity != null" >
+        #{bankCity,jdbcType=VARCHAR},
+      </if>
+      <if test="settleType != null" >
+        #{settleType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="expectSettleDate != null" >
+        #{expectSettleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualSettleDate != null" >
+        #{actualSettleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null" >
+        #{versionNo,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.Transaction" >
+    update UP_TRANSACTION
+    <set >
+      <if test="upSysRegisterOid != null" >
+        UP_SYS_REGISTER_OID = #{upSysRegisterOid,jdbcType=DECIMAL},
+      </if>
+      <if test="ufAppLedgSeqId != null" >
+        UF_APP_LEDG_SEQ_ID = #{ufAppLedgSeqId,jdbcType=VARCHAR},
+      </if>
+      <if test="ufSendBatchId != null" >
+        UF_SEND_BATCH_ID = #{ufSendBatchId,jdbcType=VARCHAR},
+      </if>
+      <if test="ufAppCode != null" >
+        UF_APP_CODE = #{ufAppCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ufCityCode != null" >
+        UF_CITY_CODE = #{ufCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="upAgentPayOid != null" >
+        UP_AGENT_PAY_OID = #{upAgentPayOid,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="upMerchantOid != null" >
+        UP_MERCHANT_OID = #{upMerchantOid,jdbcType=DECIMAL},
+      </if>
+      <if test="referenceNo != null" >
+        REFERENCE_NO = #{referenceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        ACCOUNT_NO = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null" >
+        BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountCertType != null" >
+        ACCOUNT_CERT_TYPE = #{accountCertType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProvince != null" >
+        BANK_PROVINCE = #{bankProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCity != null" >
+        BANK_CITY = #{bankCity,jdbcType=VARCHAR},
+      </if>
+      <if test="settleType != null" >
+        SETTLE_TYPE = #{settleType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="expectSettleDate != null" >
+        EXPECT_SETTLE_DATE = #{expectSettleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualSettleDate != null" >
+        ACTUAL_SETTLE_DATE = #{actualSettleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null" >
+        VERSION_NO = #{versionNo,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.Transaction" >
+    update UP_TRANSACTION
+    set UP_SYS_REGISTER_OID = #{upSysRegisterOid,jdbcType=DECIMAL},
+      UF_APP_LEDG_SEQ_ID = #{ufAppLedgSeqId,jdbcType=VARCHAR},
+      UF_SEND_BATCH_ID = #{ufSendBatchId,jdbcType=VARCHAR},
+      UF_APP_CODE = #{ufAppCode,jdbcType=VARCHAR},
+      UF_CITY_CODE = #{ufCityCode,jdbcType=VARCHAR},
+      UP_AGENT_PAY_OID = #{upAgentPayOid,jdbcType=DECIMAL},
+      PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      UP_MERCHANT_OID = #{upMerchantOid,jdbcType=DECIMAL},
+      REFERENCE_NO = #{referenceNo,jdbcType=VARCHAR},
+      ACCOUNT_NO = #{accountNo,jdbcType=VARCHAR},
+      ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
+      BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      ACCOUNT_CERT_TYPE = #{accountCertType,jdbcType=VARCHAR},
+      BANK_PROVINCE = #{bankProvince,jdbcType=VARCHAR},
+      BANK_CITY = #{bankCity,jdbcType=VARCHAR},
+      SETTLE_TYPE = #{settleType,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      EXPECT_SETTLE_DATE = #{expectSettleDate,jdbcType=TIMESTAMP},
+      ACTUAL_SETTLE_DATE = #{actualSettleDate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      VERSION_NO = #{versionNo,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL}
+  </update>
+  
+  <!--  
+   <select id="selectAuthorizedCollection" resultMap="BaseResultMap" parameterType="java.util.Map">
+    <![CDATA[
+    select 
+      * 
+    from(
+	select rownum rn, t1.* from(
+	select t.* from UP_TRANSACTION t, up_agent_pay t0 
+	where t.status in('1', '3')  
+	and to_date(to_char(t.expect_settle_date, 'yyyymmdd'), 'yyyymmdd') = to_date(to_char(sysdate, 'yyyymmdd'), 'yyyymmdd') 
+	and t.pay_type = '01' 
+	and t.up_agent_pay_oid = t0.up_agent_pay_oid
+    and t0.agent_pay_code = '01'
+	order by UF_APP_CODE) t1 
+	where rownum <= #{endNum,jdbcType=DECIMAL} ) 
+	where rn >= #{startNum,jdbcType=DECIMAL}
+	 ]]>
+  </select>
+  -->
+  
+  <select id="selectAuthorizedCollection" resultMap="BaseResultMap" parameterType="java.util.Map">
+   <![CDATA[   
+	select * from UP_TRANSACTION ut , UP_AGENT_PAY uap 
+	 where ut.up_agent_pay_oid = uap.up_agent_pay_oid 
+	 and uap.agent_pay_code ='01' 
+	 and ut.pay_type = '01' and ut.status in('1', '3')  
+	 and to_char(ut.expect_settle_date, 'yyyymmdd') = to_char(sysdate, 'yyyymmdd') 
+	 and ut.uf_app_code in (
+	  select distinct ut1.uf_app_code from UP_TRANSACTION ut1 , UP_AGENT_PAY uap1 
+	   where ut1.up_agent_pay_oid = uap1.up_agent_pay_oid 
+	   and uap1.agent_pay_code ='01' 
+	   and ut1.pay_type = '01' and ut1.status in('1', '3')  
+	   and to_char(ut1.expect_settle_date, 'yyyymmdd') = to_char(sysdate, 'yyyymmdd')  
+	   and rownum <= #{endNum,jdbcType=DECIMAL}
+	 ) order by ut.uf_app_code
+    ]]>
+  </select>
+
+  <select id="selectBatchIds" parameterType="java.lang.String">
+	select t1.uf_send_batch_id from UP_TRANSACTION t1, up_agent_pay t2 
+    where t1.up_agent_pay_oid = t2.up_agent_pay_oid
+    and t1.status = '1' 
+	and t1.pay_type = '02' 
+    and t2.agent_pay_code = #{agentCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectCMBRFPayment" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select t1.* from UP_TRANSACTION t1, up_agent_pay t2 
+	where t1.up_agent_pay_oid = t2.up_agent_pay_oid 
+	and t1.status = '1' 
+	and t1.pay_type = '02' 
+	and t2.agent_pay_code = '02 
+	and t1.uf_city_code = #{cityCode,jdbcType=VARCHAR}
+  </select>
+  
+    <update id="updateStatus" >
+  	update UP_TRANSACTION set STATUS=#{status} where UP_TRANSACTION_OID in 
+  	  <foreach collection="oids" index="index" item="item" open="(" separator="," close=")"> 
+            #{item} 
+      </foreach> 
+  </update>
+</mapper>

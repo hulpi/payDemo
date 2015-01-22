@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from TransactionDelegateService WSDL service -->
+
+  <service name="TransactionDelegate" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://delegate.pay.uaf.com"/>
+      <parameter name="wsdlServiceElement" value="TransactionDelegateService"/>
+      <parameter name="schemaQualified" value="http://delegate.pay.uaf.com"/>
+      <parameter name="wsdlServicePort" value="TransactionDelegate"/>
+      <parameter name="className" value="com.uaf.pay.delegate.TransactionDelegate"/>
+      <parameter name="wsdlPortType" value="TransactionDelegate"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://delegate.pay.uaf.com" xmlns:retNS="http://delegate.pay.uaf.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="conveyPaymentInfo" qname="operNS:conveyPaymentInfo" returnQName="retNS:conveyPaymentInfoReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://delegate.pay.uaf.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:xmlStr" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://delegate.pay.uaf.com" xmlns:retNS="http://delegate.pay.uaf.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getTransaction" qname="operNS:getTransaction" returnQName="retNS:getTransactionReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://delegate.pay.uaf.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:xmlStr" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="conveyPaymentInfo getTransaction"/>
+
+  </service>
+</deployment>

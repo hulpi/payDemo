@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.MerchantMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.Merchant" >
+    <result column="UP_MERCHANT_OID" property="upMerchantOid" jdbcType="DECIMAL" />
+    <result column="MERCHANT_CODE" property="merchantCode" jdbcType="VARCHAR" />
+    <result column="CITY_CODE" property="cityCode" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NO" property="accountNo" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NAME" property="accountName" jdbcType="VARCHAR" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="BANK_PROVINCE" property="bankProvince" jdbcType="VARCHAR" />
+    <result column="BANK_CITY" property="bankCity" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.uaf.pay.model.Merchant" >
+    insert into UP_MERCHANT (UP_MERCHANT_OID, MERCHANT_CODE, CITY_CODE, 
+      ACCOUNT_NO, ACCOUNT_NAME, BANK_CODE, 
+      BANK_NAME, BANK_PROVINCE, BANK_CITY, 
+      REMARK)
+    values (#{upMerchantOid,jdbcType=DECIMAL}, #{merchantCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, 
+      #{accountNo,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{bankProvince,jdbcType=VARCHAR}, #{bankCity,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.Merchant" >
+    insert into UP_MERCHANT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upMerchantOid != null" >
+        UP_MERCHANT_OID,
+      </if>
+      <if test="merchantCode != null" >
+        MERCHANT_CODE,
+      </if>
+      <if test="cityCode != null" >
+        CITY_CODE,
+      </if>
+      <if test="accountNo != null" >
+        ACCOUNT_NO,
+      </if>
+      <if test="accountName != null" >
+        ACCOUNT_NAME,
+      </if>
+      <if test="bankCode != null" >
+        BANK_CODE,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="bankProvince != null" >
+        BANK_PROVINCE,
+      </if>
+      <if test="bankCity != null" >
+        BANK_CITY,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upMerchantOid != null" >
+        #{upMerchantOid,jdbcType=DECIMAL},
+      </if>
+      <if test="merchantCode != null" >
+        #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null" >
+        #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProvince != null" >
+        #{bankProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCity != null" >
+        #{bankCity,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="queryMerchant" resultType="java.util.Map" useCache="true" >
+  	select  CITY_CODE,UP_MERCHANT_OID from UP_MERCHANT
+  </select>
+</mapper>

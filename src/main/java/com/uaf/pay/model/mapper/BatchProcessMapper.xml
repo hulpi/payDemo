@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.BatchProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.BatchProcess" >
+    <id column="UP_BATCH_PROCESS_OID" property="upBatchProcessOid" jdbcType="DECIMAL" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="TOTAL_ITEM" property="totalItem" jdbcType="DECIMAL" />
+    <result column="TOTAL_SUM" property="totalSum" jdbcType="DECIMAL" />
+    <result column="REQ_SN" property="reqSn" jdbcType="VARCHAR" />
+    <result column="RETURN_CODE" property="returnCode" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ERROR_MSG" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_BATCH_PROCESS_OID, FILE_PATH, TOTAL_ITEM, TOTAL_SUM, REQ_SN, RETURN_CODE, STATUS, 
+    ERROR_MSG, CREATE_DATE
+  </sql>
+  <select id="selectSeq" resultType="java.lang.Long">
+      select up_batch_process_seq.nextval from dual
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_BATCH_PROCESS
+    where UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_BATCH_PROCESS
+    where UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.uaf.pay.model.BatchProcess" >
+    insert into UP_BATCH_PROCESS (UP_BATCH_PROCESS_OID, FILE_PATH, TOTAL_ITEM, 
+      TOTAL_SUM, REQ_SN, RETURN_CODE, 
+      STATUS, ERROR_MSG, CREATE_DATE
+      )
+    values (#{upBatchProcessOid,jdbcType=DECIMAL}, #{filePath,jdbcType=VARCHAR}, #{totalItem,jdbcType=DECIMAL}, 
+      #{totalSum,jdbcType=DECIMAL}, #{reqSn,jdbcType=VARCHAR}, #{returnCode,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{errorMsg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.BatchProcess" >
+    insert into UP_BATCH_PROCESS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upBatchProcessOid != null" >
+        UP_BATCH_PROCESS_OID,
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH,
+      </if>
+      <if test="totalItem != null" >
+        TOTAL_ITEM,
+      </if>
+      <if test="totalSum != null" >
+        TOTAL_SUM,
+      </if>
+      <if test="reqSn != null" >
+        REQ_SN,
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upBatchProcessOid != null" >
+        #{upBatchProcessOid,jdbcType=DECIMAL},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="totalItem != null" >
+        #{totalItem,jdbcType=DECIMAL},
+      </if>
+      <if test="totalSum != null" >
+        #{totalSum,jdbcType=DECIMAL},
+      </if>
+      <if test="reqSn != null" >
+        #{reqSn,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.BatchProcess" >
+    update UP_BATCH_PROCESS
+    <set >
+      <if test="filePath != null" >
+        FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="totalItem != null" >
+        TOTAL_ITEM = #{totalItem,jdbcType=DECIMAL},
+      </if>
+      <if test="totalSum != null" >
+        TOTAL_SUM = #{totalSum,jdbcType=DECIMAL},
+      </if>
+      <if test="reqSn != null" >
+        REQ_SN = #{reqSn,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.BatchProcess" >
+    update UP_BATCH_PROCESS
+    set FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      TOTAL_ITEM = #{totalItem,jdbcType=DECIMAL},
+      TOTAL_SUM = #{totalSum,jdbcType=DECIMAL},
+      REQ_SN = #{reqSn,jdbcType=VARCHAR},
+      RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL}
+  </update>
+  
+ 
+  <select id="queryBatchProcess" resultMap="BaseResultMap">
+  	 select 	*	 	
+  	 	 from UP_BATCH_PROCESS p where STATUS in 
+	 <foreach collection="status" index="index" item="item" open="(" separator="," close=")"> 
+          #{item} 
+   	 </foreach> 
+  </select>
+  <update id="updateBatchProcessStatus" parameterType="com.uaf.pay.model.BatchProcess">
+  	update UP_BATCH_PROCESS set status=${status} where UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="queryBatchProcessBySn" resultMap="BaseResultMap">
+  	select * from UP_BATCH_PROCESS where req_sn=#{sn}
+  </select>
+</mapper>

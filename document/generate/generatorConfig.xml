@@ -1,0 +1,29 @@
+<!DOCTYPE generatorConfiguration  
+      PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+      "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
+    <generatorConfiguration>  
+        <classPathEntry  location="ojdbc14.jar"/>  
+        <context id="DB2Tables"  targetRuntime="MyBatis3">  
+            <commentGenerator>  
+                <property name="suppressDate" value="true"/>  
+                <property name="suppressAllComments" value="true"/>  
+            </commentGenerator>  
+            <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.168.11.105)(PORT = 1521))(LOAD_BALANCE = yes))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = lsdb)(FAILOVER_MODE =(TYPE = SELECT)(METHOD = BASIC)(RETRIES = 180)(DELAY = 5))))"  userId="uafpay" password="uafpay">
+            	
+            </jdbcConnection>  
+            <javaTypeResolver>  
+                <property name="forceBigDecimals" value="false"/>  
+            </javaTypeResolver>  
+            <javaModelGenerator targetPackage="com.uaf.pay.model" targetProject="uaf_pay\src">  
+                <property name="enableSubPackages" value="true"/>  
+                <property name="trimStrings" value="true"/>  
+            </javaModelGenerator>  
+            <sqlMapGenerator targetPackage="com.uaf.pay.model.mapper" targetProject="uaf_pay\src">  
+                <property name="enableSubPackages" value="true"/>  
+            </sqlMapGenerator>  
+            <javaClientGenerator type="XMLMAPPER" targetPackage="com.uaf.pay.model.mapper" targetProject="src">  
+                <property name="enableSubPackages" value="true"/>  
+            </javaClientGenerator>           
+             <table tableName="UP_YINLIAN_TRACK" domainObjectName="YLResponseInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>  
+        </context>  
+    </generatorConfiguration>  

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.BankMappingMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.BankMapping" >
+    <id column="UP_BANK_MAPPING_OID" property="upBankMappingOid" jdbcType="DECIMAL" />
+    <result column="ORIGINAL_BANK_CODE" property="originalBankCode" jdbcType="VARCHAR" />
+    <result column="DESTINED_BANK_CODE" property="destinedBankCode" jdbcType="VARCHAR" />
+    <result column="PURPOSE_TYPE" property="purposeType" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_BANK_MAPPING_OID, ORIGINAL_BANK_CODE, DESTINED_BANK_CODE, PURPOSE_TYPE, BANK_NAME, 
+    REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_BANK_MAPPING
+    where UP_BANK_MAPPING_OID = #{upBankMappingOid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAipgBankMapping" resultMap="BaseResultMap">
+      select * from up_bank_mapping where purpose_type = '1'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_BANK_MAPPING
+    where UP_BANK_MAPPING_OID = #{upBankMappingOid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.uaf.pay.model.BankMapping" >
+    insert into UP_BANK_MAPPING (UP_BANK_MAPPING_OID, ORIGINAL_BANK_CODE, 
+      DESTINED_BANK_CODE, PURPOSE_TYPE, BANK_NAME, 
+      REMARK)
+    values (#{upBankMappingOid,jdbcType=DECIMAL}, #{originalBankCode,jdbcType=VARCHAR}, 
+      #{destinedBankCode,jdbcType=VARCHAR}, #{purposeType,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.BankMapping" >
+    insert into UP_BANK_MAPPING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upBankMappingOid != null" >
+        UP_BANK_MAPPING_OID,
+      </if>
+      <if test="originalBankCode != null" >
+        ORIGINAL_BANK_CODE,
+      </if>
+      <if test="destinedBankCode != null" >
+        DESTINED_BANK_CODE,
+      </if>
+      <if test="purposeType != null" >
+        PURPOSE_TYPE,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upBankMappingOid != null" >
+        #{upBankMappingOid,jdbcType=DECIMAL},
+      </if>
+      <if test="originalBankCode != null" >
+        #{originalBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destinedBankCode != null" >
+        #{destinedBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purposeType != null" >
+        #{purposeType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.BankMapping" >
+    update UP_BANK_MAPPING
+    <set >
+      <if test="originalBankCode != null" >
+        ORIGINAL_BANK_CODE = #{originalBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destinedBankCode != null" >
+        DESTINED_BANK_CODE = #{destinedBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purposeType != null" >
+        PURPOSE_TYPE = #{purposeType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UP_BANK_MAPPING_OID = #{upBankMappingOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.BankMapping" >
+    update UP_BANK_MAPPING
+    set ORIGINAL_BANK_CODE = #{originalBankCode,jdbcType=VARCHAR},
+      DESTINED_BANK_CODE = #{destinedBankCode,jdbcType=VARCHAR},
+      PURPOSE_TYPE = #{purposeType,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where UP_BANK_MAPPING_OID = #{upBankMappingOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

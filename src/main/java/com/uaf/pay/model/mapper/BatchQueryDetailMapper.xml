@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.BatchQueryDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.BatchQueryDetail" >
+    <id column="UP_BATCH_Query_DETAIL_OID" property="upBatchQueryDetailOid" jdbcType="DECIMAL" />
+    <result column="UP_BATCH_Query_OID" property="upBatchQueryOid" jdbcType="DECIMAL" />
+    <result column="UP_TRANSACTION_OID" property="upTransactionOid" jdbcType="DECIMAL" />
+    <result column="SN" property="sn" jdbcType="VARCHAR" />
+    <result column="TRX_DIR" property="trxDir" jdbcType="VARCHAR" />
+    <result column="SETTDAY" property="settday" jdbcType="VARCHAR" />
+    <result column="FINISH_TIME" property="finishTime" jdbcType="VARCHAR" />
+    <result column="SUBMIT_TIME" property="submitTime" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NO" property="accountNo" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_NAME" property="accountName" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="CUST_USER_ID" property="custUserId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="RETURN_CODE" property="returnCode" jdbcType="VARCHAR" />
+    <result column="ERROR_MSG" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_BATCH_Query_DETAIL_OID, UP_BATCH_Query_OID, UP_TRANSACTION_OID, SN, TRX_DIR, SETTDAY, 
+    FINISH_TIME, SUBMIT_TIME, ACCOUNT_NO, ACCOUNT_NAME, AMOUNT, CUST_USER_ID, REMARK, 
+    RETURN_CODE, ERROR_MSG, CREATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_BATCH_Query_DETAIL
+    where UP_BATCH_Query_DETAIL_OID = #{upBatchQueryDetailOid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_BATCH_Query_DETAIL
+    where UP_BATCH_Query_DETAIL_OID = #{upBatchQueryDetailOid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.uaf.pay.model.BatchQueryDetail" >
+  <selectKey keyProperty="upBatchQueryDetailOid"  resultType="java.lang.Long" order="BEFORE">
+   	select UP_BATCH_Query_DETAIL_SEQ.nextval from dual
+  </selectKey>
+    insert into UP_BATCH_Query_DETAIL (UP_BATCH_Query_DETAIL_OID, UP_BATCH_Query_OID, 
+      UP_TRANSACTION_OID, SN, TRX_DIR, 
+      SETTDAY, FINISH_TIME, SUBMIT_TIME, 
+      ACCOUNT_NO, ACCOUNT_NAME, AMOUNT, 
+      CUST_USER_ID, REMARK, RETURN_CODE, 
+      ERROR_MSG, CREATE_DATE)
+    values (#{upBatchQueryDetailOid,jdbcType=DECIMAL}, #{upBatchQueryOid,jdbcType=DECIMAL}, 
+      #{upTransactionOid,jdbcType=DECIMAL}, #{sn,jdbcType=VARCHAR}, #{trxDir,jdbcType=VARCHAR}, 
+      #{settday,jdbcType=VARCHAR}, #{finishTime,jdbcType=VARCHAR}, #{submitTime,jdbcType=VARCHAR}, 
+      #{accountNo,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{custUserId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{returnCode,jdbcType=VARCHAR}, 
+      #{errorMsg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.BatchQueryDetail" >
+    insert into UP_BATCH_Query_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upBatchQueryDetailOid != null" >
+        UP_BATCH_Query_DETAIL_OID,
+      </if>
+      <if test="upBatchQueryOid != null" >
+        UP_BATCH_Query_OID,
+      </if>
+      <if test="upTransactionOid != null" >
+        UP_TRANSACTION_OID,
+      </if>
+      <if test="sn != null" >
+        SN,
+      </if>
+      <if test="trxDir != null" >
+        TRX_DIR,
+      </if>
+      <if test="settday != null" >
+        SETTDAY,
+      </if>
+      <if test="finishTime != null" >
+        FINISH_TIME,
+      </if>
+      <if test="submitTime != null" >
+        SUBMIT_TIME,
+      </if>
+      <if test="accountNo != null" >
+        ACCOUNT_NO,
+      </if>
+      <if test="accountName != null" >
+        ACCOUNT_NAME,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="custUserId != null" >
+        CUST_USER_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE,
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upBatchQueryDetailOid != null" >
+        #{upBatchQueryDetailOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upBatchQueryOid != null" >
+        #{upBatchQueryOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upTransactionOid != null" >
+        #{upTransactionOid,jdbcType=DECIMAL},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="trxDir != null" >
+        #{trxDir,jdbcType=VARCHAR},
+      </if>
+      <if test="settday != null" >
+        #{settday,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null" >
+        #{submitTime,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="custUserId != null" >
+        #{custUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.BatchQueryDetail" >
+    update UP_BATCH_Query_DETAIL
+    <set >
+      <if test="upBatchQueryOid != null" >
+        UP_BATCH_Query_OID = #{upBatchQueryOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upTransactionOid != null" >
+        UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL},
+      </if>
+      <if test="sn != null" >
+        SN = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="trxDir != null" >
+        TRX_DIR = #{trxDir,jdbcType=VARCHAR},
+      </if>
+      <if test="settday != null" >
+        SETTDAY = #{settday,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        FINISH_TIME = #{finishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null" >
+        SUBMIT_TIME = #{submitTime,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        ACCOUNT_NO = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="custUserId != null" >
+        CUST_USER_ID = #{custUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UP_BATCH_Query_DETAIL_OID = #{upBatchQueryDetailOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.BatchQueryDetail" >
+    update UP_BATCH_Query_DETAIL
+    set UP_BATCH_Query_OID = #{upBatchQueryOid,jdbcType=DECIMAL},
+      UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL},
+      SN = #{sn,jdbcType=VARCHAR},
+      TRX_DIR = #{trxDir,jdbcType=VARCHAR},
+      SETTDAY = #{settday,jdbcType=VARCHAR},
+      FINISH_TIME = #{finishTime,jdbcType=VARCHAR},
+      SUBMIT_TIME = #{submitTime,jdbcType=VARCHAR},
+      ACCOUNT_NO = #{accountNo,jdbcType=VARCHAR},
+      ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      CUST_USER_ID = #{custUserId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where UP_BATCH_Query_DETAIL_OID = #{upBatchQueryDetailOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="queryIsExistSameBatch" resultType="int">
+  	select count(*)
+  	from UP_BATCH_QUERY_DETAIL bqd, up_batch_query bq
+ 	where bqd.up_batch_query_oid = bq.up_batch_query_oid
+ 	and bqd.up_transaction_oid=#{up_transaction_oid}
+ 	and bq.up_batch_process_oid=#{up_batch_process_oid}
+  </select>
+</mapper>

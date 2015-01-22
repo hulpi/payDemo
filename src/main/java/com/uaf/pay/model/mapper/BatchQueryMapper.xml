@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.BatchQueryMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.BatchQuery" >
+    <id column="UP_BATCH_QUERY_OID" property="upBatchQueryOid" jdbcType="DECIMAL" />
+    <result column="UP_BATCH_PROCESS_OID" property="upBatchProcessOid" jdbcType="DECIMAL" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="REQ_SN" property="reqSn" jdbcType="VARCHAR" />
+    <result column="RETURN_CODE" property="returnCode" jdbcType="VARCHAR" />
+    <result column="ERROR_MSG" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_BATCH_QUERY_OID, UP_BATCH_PROCESS_OID, FILE_PATH, REQ_SN, RETURN_CODE, ERROR_MSG, 
+    CREATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_BATCH_QUERY
+    where UP_BATCH_QUERY_OID = #{upBatchQueryOid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_BATCH_QUERY
+    where UP_BATCH_QUERY_OID = #{upBatchQueryOid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.uaf.pay.model.BatchQuery" >
+  	<selectKey resultType="java.lang.Long"  keyProperty="upBatchQueryOid" order="BEFORE">
+  		select UP_BATCH_QUERY_SEQ.nextval from dual
+  	</selectKey>
+    insert into UP_BATCH_QUERY (UP_BATCH_QUERY_OID, UP_BATCH_PROCESS_OID, 
+      FILE_PATH, REQ_SN, RETURN_CODE, 
+      ERROR_MSG, CREATE_DATE)
+    values (#{upBatchQueryOid,jdbcType=DECIMAL}, #{upBatchProcessOid,jdbcType=DECIMAL}, 
+      #{filePath,jdbcType=VARCHAR}, #{reqSn,jdbcType=VARCHAR}, #{returnCode,jdbcType=VARCHAR}, 
+      #{errorMsg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.BatchQuery" >
+    insert into UP_BATCH_QUERY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upBatchQueryOid != null" >
+        UP_BATCH_QUERY_OID,
+      </if>
+      <if test="upBatchProcessOid != null" >
+        UP_BATCH_PROCESS_OID,
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH,
+      </if>
+      <if test="reqSn != null" >
+        REQ_SN,
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE,
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upBatchQueryOid != null" >
+        #{upBatchQueryOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upBatchProcessOid != null" >
+        #{upBatchProcessOid,jdbcType=DECIMAL},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="reqSn != null" >
+        #{reqSn,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.BatchQuery" >
+    update UP_BATCH_QUERY
+    <set >
+      <if test="upBatchProcessOid != null" >
+        UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL},
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="reqSn != null" >
+        REQ_SN = #{reqSn,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UP_BATCH_QUERY_OID = #{upBatchQueryOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.BatchQuery" >
+    update UP_BATCH_QUERY
+    set UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL},
+      FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      REQ_SN = #{reqSn,jdbcType=VARCHAR},
+      RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where UP_BATCH_QUERY_OID = #{upBatchQueryOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

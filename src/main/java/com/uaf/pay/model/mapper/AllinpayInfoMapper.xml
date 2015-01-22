@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.AllinpayInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.AllinpayInfo" >
+    <id column="UP_ALLINPAY_INFO_OID" property="upAllinpayInfoOid" jdbcType="DECIMAL" />
+    <result column="UP_TRANSACTION_OID" property="upTransactionOid" jdbcType="DECIMAL" />
+    <result column="E_USER_CODE" property="eUserCode" jdbcType="VARCHAR" />
+    <result column="PROTOCOL" property="protocol" jdbcType="VARCHAR" />
+    <result column="PROTOCOL_USER" property="protocolUser" jdbcType="VARCHAR" />
+    <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+    <result column="ID_NUMBER" property="idNumber" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="CUST_USER_ID" property="custUserId" jdbcType="VARCHAR" />
+    <result column="SETTACCT" property="settacct" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="SETTGROUP_FLAG" property="settgroupFlag" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+    <result column="UNION_BANK" property="unionBank" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_ALLINPAY_INFO_OID, UP_TRANSACTION_OID, E_USER_CODE, PROTOCOL, PROTOCOL_USER, ID_TYPE, 
+    ID_NUMBER, TEL, CUST_USER_ID, SETTACCT, REMARK, SETTGROUP_FLAG, SUMMARY, UNION_BANK, 
+    CREATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_ALLINPAY_INFO
+    where UP_ALLINPAY_INFO_OID = #{upAllinpayInfoOid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_ALLINPAY_INFO
+    where UP_ALLINPAY_INFO_OID = #{upAllinpayInfoOid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.uaf.pay.model.AllinpayInfo" >
+    insert into UP_ALLINPAY_INFO (UP_ALLINPAY_INFO_OID, UP_TRANSACTION_OID, 
+      E_USER_CODE, PROTOCOL, PROTOCOL_USER, 
+      ID_TYPE, ID_NUMBER, TEL, 
+      CUST_USER_ID, SETTACCT, REMARK, 
+      SETTGROUP_FLAG, SUMMARY, UNION_BANK, 
+      CREATE_DATE)
+    values (#{upAllinpayInfoOid,jdbcType=DECIMAL}, #{upTransactionOid,jdbcType=DECIMAL}, 
+      #{eUserCode,jdbcType=VARCHAR}, #{protocol,jdbcType=VARCHAR}, #{protocolUser,jdbcType=VARCHAR}, 
+      #{idType,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{custUserId,jdbcType=VARCHAR}, #{settacct,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{settgroupFlag,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{unionBank,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.AllinpayInfo" >
+    insert into UP_ALLINPAY_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upAllinpayInfoOid != null" >
+        UP_ALLINPAY_INFO_OID,
+      </if>
+      <if test="upTransactionOid != null" >
+        UP_TRANSACTION_OID,
+      </if>
+      <if test="eUserCode != null" >
+        E_USER_CODE,
+      </if>
+      <if test="protocol != null" >
+        PROTOCOL,
+      </if>
+      <if test="protocolUser != null" >
+        PROTOCOL_USER,
+      </if>
+      <if test="idType != null" >
+        ID_TYPE,
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER,
+      </if>
+      <if test="tel != null" >
+        TEL,
+      </if>
+      <if test="custUserId != null" >
+        CUST_USER_ID,
+      </if>
+      <if test="settacct != null" >
+        SETTACCT,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="settgroupFlag != null" >
+        SETTGROUP_FLAG,
+      </if>
+      <if test="summary != null" >
+        SUMMARY,
+      </if>
+      <if test="unionBank != null" >
+        UNION_BANK,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upAllinpayInfoOid != null" >
+        #{upAllinpayInfoOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upTransactionOid != null" >
+        #{upTransactionOid,jdbcType=DECIMAL},
+      </if>
+      <if test="eUserCode != null" >
+        #{eUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null" >
+        #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolUser != null" >
+        #{protocolUser,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="custUserId != null" >
+        #{custUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="settacct != null" >
+        #{settacct,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="settgroupFlag != null" >
+        #{settgroupFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="unionBank != null" >
+        #{unionBank,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.AllinpayInfo" >
+    update UP_ALLINPAY_INFO
+    <set >
+      <if test="upTransactionOid != null" >
+        UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL},
+      </if>
+      <if test="eUserCode != null" >
+        E_USER_CODE = #{eUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null" >
+        PROTOCOL = #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolUser != null" >
+        PROTOCOL_USER = #{protocolUser,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        ID_TYPE = #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="custUserId != null" >
+        CUST_USER_ID = #{custUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="settacct != null" >
+        SETTACCT = #{settacct,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="settgroupFlag != null" >
+        SETTGROUP_FLAG = #{settgroupFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        SUMMARY = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="unionBank != null" >
+        UNION_BANK = #{unionBank,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UP_ALLINPAY_INFO_OID = #{upAllinpayInfoOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.AllinpayInfo" >
+    update UP_ALLINPAY_INFO
+    set UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL},
+      E_USER_CODE = #{eUserCode,jdbcType=VARCHAR},
+      PROTOCOL = #{protocol,jdbcType=VARCHAR},
+      PROTOCOL_USER = #{protocolUser,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=VARCHAR},
+      ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      CUST_USER_ID = #{custUserId,jdbcType=VARCHAR},
+      SETTACCT = #{settacct,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      SETTGROUP_FLAG = #{settgroupFlag,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
+      UNION_BANK = #{unionBank,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where UP_ALLINPAY_INFO_OID = #{upAllinpayInfoOid,jdbcType=DECIMAL}
+  </update>
+</mapper>

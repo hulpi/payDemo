@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.BatchProcessDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.BatchProcessDetail" >
+    <id column="UP_BATCH_PROCESS_DETAIL_OID" property="upBatchProcessDetailOid" jdbcType="DECIMAL" />
+    <result column="UP_BATCH_PROCESS_OID" property="upBatchProcessOid" jdbcType="DECIMAL" />
+    <result column="UP_TRANSACTION_OID" property="upTransactionOid" jdbcType="DECIMAL" />
+    <result column="SN" property="sn" jdbcType="VARCHAR" />
+    <result column="RETURN_CODE" property="returnCode" jdbcType="VARCHAR" />
+    <result column="ERROR_MSG" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_BATCH_PROCESS_DETAIL_OID, UP_BATCH_PROCESS_OID, UP_TRANSACTION_OID, SN, RETURN_CODE, 
+    ERROR_MSG, CREATE_DATE
+  </sql>
+  <select id="selectSeq" resultType="java.lang.Long">
+      select up_batch_process_detail_seq.nextval from dual
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_BATCH_PROCESS_DETAIL
+    where UP_BATCH_PROCESS_DETAIL_OID = #{upBatchProcessDetailOid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_BATCH_PROCESS_DETAIL
+    where UP_BATCH_PROCESS_DETAIL_OID = #{upBatchProcessDetailOid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.uaf.pay.model.BatchProcessDetail" >
+    <selectKey resultType="java.lang.Long"  keyProperty="upBatchProcessDetailOid" order="BEFORE">
+  	  select UP_BATCH_PROCESS_DETAIL_SEQ.nextval from dual
+    </selectKey>
+    insert into UP_BATCH_PROCESS_DETAIL (UP_BATCH_PROCESS_DETAIL_OID, UP_BATCH_PROCESS_OID, 
+      UP_TRANSACTION_OID, SN, RETURN_CODE, 
+      ERROR_MSG, CREATE_DATE)
+    values (#{upBatchProcessDetailOid,jdbcType=DECIMAL}, #{upBatchProcessOid,jdbcType=DECIMAL}, 
+      #{upTransactionOid,jdbcType=DECIMAL}, #{sn,jdbcType=VARCHAR}, #{returnCode,jdbcType=VARCHAR}, 
+      #{errorMsg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.BatchProcessDetail" >
+    insert into UP_BATCH_PROCESS_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upBatchProcessDetailOid != null" >
+        UP_BATCH_PROCESS_DETAIL_OID,
+      </if>
+      <if test="upBatchProcessOid != null" >
+        UP_BATCH_PROCESS_OID,
+      </if>
+      <if test="upTransactionOid != null" >
+        UP_TRANSACTION_OID,
+      </if>
+      <if test="sn != null" >
+        SN,
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE,
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upBatchProcessDetailOid != null" >
+        #{upBatchProcessDetailOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upBatchProcessOid != null" >
+        #{upBatchProcessOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upTransactionOid != null" >
+        #{upTransactionOid,jdbcType=DECIMAL},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.BatchProcessDetail" >
+    update UP_BATCH_PROCESS_DETAIL
+    <set >
+      <if test="upBatchProcessOid != null" >
+        UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL},
+      </if>
+      <if test="upTransactionOid != null" >
+        UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL},
+      </if>
+      <if test="sn != null" >
+        SN = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UP_BATCH_PROCESS_DETAIL_OID = #{upBatchProcessDetailOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.BatchProcessDetail" >
+    update UP_BATCH_PROCESS_DETAIL
+    set UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL},
+      UP_TRANSACTION_OID = #{upTransactionOid,jdbcType=DECIMAL},
+      SN = #{sn,jdbcType=VARCHAR},
+      RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      ERROR_MSG = #{errorMsg,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where UP_BATCH_PROCESS_DETAIL_OID = #{upBatchProcessDetailOid,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="queryBatchProcessDetailByUpBatchProcessOid" resultMap="BaseResultMap" >
+  	select
+  	<include refid="Base_Column_List" />
+    from UP_BATCH_PROCESS_DETAIL
+    where UP_BATCH_PROCESS_OID = #{upBatchProcessOid,jdbcType=DECIMAL}  	
+  </select>
+</mapper>

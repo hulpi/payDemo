@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uaf.pay.model.mapper.AgentPayMapper" >
+  <resultMap id="BaseResultMap" type="com.uaf.pay.model.AgentPay" >
+    <id column="UP_AGENT_PAY_OID" property="upAgentPayOid" jdbcType="DECIMAL" />
+    <result column="AGENT_PAY_CODE" property="agentPayCode" jdbcType="VARCHAR" />
+    <result column="AGENT_PAY_NAME" property="agentPayName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UP_AGENT_PAY_OID, AGENT_PAY_CODE, AGENT_PAY_NAME, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from UP_AGENT_PAY
+    where UP_AGENT_PAY_OID = #{upAgentPayOid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from UP_AGENT_PAY
+    where UP_AGENT_PAY_OID = #{upAgentPayOid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.uaf.pay.model.AgentPay" >
+    insert into UP_AGENT_PAY (UP_AGENT_PAY_OID, AGENT_PAY_CODE, AGENT_PAY_NAME, 
+      REMARK)
+    values (#{upAgentPayOid,jdbcType=DECIMAL}, #{agentPayCode,jdbcType=VARCHAR}, #{agentPayName,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uaf.pay.model.AgentPay" >
+    insert into UP_AGENT_PAY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="upAgentPayOid != null" >
+        UP_AGENT_PAY_OID,
+      </if>
+      <if test="agentPayCode != null" >
+        AGENT_PAY_CODE,
+      </if>
+      <if test="agentPayName != null" >
+        AGENT_PAY_NAME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="upAgentPayOid != null" >
+        #{upAgentPayOid,jdbcType=DECIMAL},
+      </if>
+      <if test="agentPayCode != null" >
+        #{agentPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPayName != null" >
+        #{agentPayName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uaf.pay.model.AgentPay" >
+    update UP_AGENT_PAY
+    <set >
+      <if test="agentPayCode != null" >
+        AGENT_PAY_CODE = #{agentPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPayName != null" >
+        AGENT_PAY_NAME = #{agentPayName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UP_AGENT_PAY_OID = #{upAgentPayOid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uaf.pay.model.AgentPay" >
+    update UP_AGENT_PAY
+    set AGENT_PAY_CODE = #{agentPayCode,jdbcType=VARCHAR},
+      AGENT_PAY_NAME = #{agentPayName,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where UP_AGENT_PAY_OID = #{upAgentPayOid,jdbcType=DECIMAL}
+  </update>
+  
+   <select id="queryAgentPay" resultType="java.util.Map" useCache="true" >
+  	select  AGENT_PAY_CODE,UP_AGENT_PAY_OID from UP_AGENT_PAY
+  </select>
+</mapper>

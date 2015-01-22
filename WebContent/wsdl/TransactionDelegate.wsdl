@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://delegate.pay.uaf.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://delegate.pay.uaf.com" xmlns:intf="http://delegate.pay.uaf.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://delegate.pay.uaf.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="conveyPaymentInfo">
+    <complexType>
+     <sequence>
+      <element name="xmlStr" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="conveyPaymentInfoResponse">
+    <complexType>
+     <sequence>
+      <element name="conveyPaymentInfoReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getTransaction">
+    <complexType>
+     <sequence>
+      <element name="xmlStr" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getTransactionResponse">
+    <complexType>
+     <sequence>
+      <element name="getTransactionReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="conveyPaymentInfoResponse">
+
+      <wsdl:part element="impl:conveyPaymentInfoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTransactionResponse">
+
+      <wsdl:part element="impl:getTransactionResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="conveyPaymentInfoRequest">
+
+      <wsdl:part element="impl:conveyPaymentInfo" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTransactionRequest">
+
+      <wsdl:part element="impl:getTransaction" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="TransactionDelegate">
+
+      <wsdl:operation name="conveyPaymentInfo">
+
+         <wsdl:input message="impl:conveyPaymentInfoRequest" name="conveyPaymentInfoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:conveyPaymentInfoResponse" name="conveyPaymentInfoResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTransaction">
+
+         <wsdl:input message="impl:getTransactionRequest" name="getTransactionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getTransactionResponse" name="getTransactionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="TransactionDelegateSoapBinding" type="impl:TransactionDelegate">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="conveyPaymentInfo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="conveyPaymentInfoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="conveyPaymentInfoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTransaction">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getTransactionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getTransactionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="TransactionDelegateService">
+
+      <wsdl:port binding="impl:TransactionDelegateSoapBinding" name="TransactionDelegate">
+
+         <wsdlsoap:address location="http://localhost:13214/WebServiceGenerate/services/TransactionDelegate"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
